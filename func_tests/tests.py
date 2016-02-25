@@ -1,11 +1,10 @@
+# -*- coding: utf-8 -*-
 from django.test import LiveServerTestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 import unittest, time, sys
-
-
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
@@ -105,7 +104,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
 
     def test_layout_and_styling(self):
-
     # Edith goes to the home page
         # self.browser.get(self.live_server_url)
         self.browser.get(self.server_url)
