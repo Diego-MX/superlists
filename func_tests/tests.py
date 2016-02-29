@@ -120,8 +120,8 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
             512,
-            delta=5
-        )
+            delta=5,
+            )
 
 
 if __name__ == '__main__':
