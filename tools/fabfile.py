@@ -1,9 +1,9 @@
+from __future__ import with_statement
 from fabric.contrib.files import append, exists, sed
 from fabric.api import env, local, run, cd
-from __future__ import with_statement
 import random
 
-env_hosts = ['159.203.234.119']
+env.hosts = ['159.203.234.119']
 REPO_URL  = 'https://github.com/Diego-MX/superlists.git'
 
 def _create_directory_structure_if_necessary(site_folder):
@@ -12,7 +12,7 @@ def _create_directory_structure_if_necessary(site_folder):
 
 def _get_latest_source(source_folder):
     with cd(source_folder):
-        if exists('/.git'):
+        if exists('.git'):
             run('git fetch')
         else:
             run('git clone %s .' % REPO_URL)
@@ -21,10 +21,10 @@ def _get_latest_source(source_folder):
 
 def _update_settings(source_folder, site_name):
     settings_path = source_folder + '/superlists/settings.py'
-    sed(settings_path, "DEBUG = True",
-                       "DEBUG = False")
-    sed(settings_path, "ALLOWED_HOSTS =.+$",
-                       "ALLOWED_HOSTS = ["%s"]" % site_name)
+    sed(settings_path, 'DEBUG = True',
+                       'DEBUG = False')
+    sed(settings_path, 'ALLOWED_HOSTS =.+$',
+                       'ALLOWED_HOSTS = ["%s"]' % site_name)
     # I'm not convinced about this key generating files.
     secret_key_file = source_folder + '/superlists/secret_key.py'
     if not exists(secret_key_file):
@@ -41,12 +41,12 @@ def _update_virtualenv(source_folder):
         (virtualenv_folder, source_folder))
 
 def _update_static_files(source_folder):
-    with cd(source_folder + '../virtualenv/bin'):
-        run('python3 manage.py collectstatic --noinput')
+    with cd(source_folder):
+        run('../virtualenv/bin/python3 manage.py collectstatic --noinput')
 
 def _update_database(source_folder):
-    with cd(source_folder + '../virtualenv/bin'):
-        run('python3 manage.py migrate --noinput')
+    with cd(source_folder):
+        run('../virtualenv/bin/python3 manage.py migrate --noinput')
 
 def deploy(site_name):
     site_folder = '/home/%s/sites/%s' % (env.user, site_name)
