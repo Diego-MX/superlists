@@ -18,7 +18,6 @@ eg, on Ubuntu:
 
 * see nginx.template.conf
 * replace SITENAME with, eg, staging.my-domain.com
-* if server not linked to server name (domain), modify /etc/hosts
 
 ## Upstart Job
 
