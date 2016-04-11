@@ -4,7 +4,7 @@ Provisioning a new site
 ## Required packages:
 
 * nginx
-* Python 3
+* Python3
 * Git
 * pip
 * virtualenv
