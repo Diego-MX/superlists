@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from unittest import skip
 
 
+
 class ItemValidationTest(FunctionalTest):
     def test_cannot_add_empty_list_items(self):
         # Edith goes to the home page and accidentally tries to submit
@@ -35,3 +36,18 @@ class ItemValidationTest(FunctionalTest):
         new_item.send_keys('Paint horse with rainbow colors\n')
         self.check_for_row_in_list_table('1: Get a horse with a horn')
         self.check_for_row_in_list_table('2: Paint horse with rainbow colors')
+
+
+    def test_cannot_add_duplicate_items(self):
+        # Edith goes to the home page and starts a new list
+        self.browser.get(self.server_url)
+        self.get_item_input_box().send_keys('Buy wellies\n')
+        self.check_for_row_in_list_table('1: Buy wellies')
+
+        # She accidentally tries to enter a duplicate item
+        self.get_item_input_box().send_keys('Buy wellies\n')
+
+        # She sees a helpful error message
+        self.check_for_row_in_list_table('1: Buy wellies')
+        error = self.browser.find_element_by_css_selector('.has-error')
+        self.assertEqual(error.text, "You've already got this in your list")
